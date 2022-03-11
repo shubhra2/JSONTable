@@ -1,0 +1,25 @@
+body {
+    display: flex;
+    text-align: center;
+    justify-content: space-between;
+    flex-direction: column;
+    font-family: 'Roboto', sans-serif;
+}
+
+img {
+    border-radius: 50%;
+}
+
+.button {
+    background-color: rgba(222, 184, 135, 0.5);
+    font-size: medium;
+    font-weight: 600;
+    padding: 16px 20px;
+    border: none;
+    border-radius: 6px;
+}
+
+.button:hover {
+    cursor: pointer;
+    background-color: rgba(222, 184, 135, 0.2);
+}

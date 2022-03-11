@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="tabulator-tables/dist/css/tabulator_bootstrap4.min.css">
+    <script type="text/javascript" src="tabulator-tables/dist/js/tabulator.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/luxon@2.3.1/build/global/luxon.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <title>Users table</title>
+</head>
+
+<body>
+    <h1>User table</h1>
+
+    <div id="json-table"></div>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>
+        $.ajax({
+            url: 'users.json',
+            dataType: 'json',
+            success: function (json) {
+                var tableData = json.results.map(function (user) {
+                    return {
+                        name: user.name.first + ' ' + user.name.last,
+                        location: user.location.city + ', ' + user.location.country,
+                        DOB: user.dob.date,
+                        Phone: user.phone,
+                        Picture: user.picture.thumbnail
+                    };
+                });
+                var button = function () {
+                    return `<button class='button' onclick='deleteRow(event)'>Delete</button>`;
+                };
+                var table = new Tabulator('#json-table', {
+                    height: '90vh',
+                    data: tableData,
+                    layout: "fitColumns",
+                    pagination: "local",
+                    paginationSize: 9,
+                    paginationSizeSelector: [9, 25, 50, 100],
+                    paginationCounter: "rows",
+                    responsiveLayout: "collapse",
+                    columns: [
+                        { title: "Name", field: "name", sorter: "string", headerFilter: "input" },
+                        { title: "Location", field: "location", sorter: "string", headerFilter: "input" },
+                        {
+                            title: "DOB", field: "DOB", sorter: "string", formatter: "datetime", headerFilter: "input", formatterParams: {
+                                inputFormat: "iso",
+                                outputFormat: "DD",
+                            }
+                        },
+                        { title: "Phone", field: "Phone", sorter: "number", headerFilter: "input" },
+                        { title: "Picture", field: "Picture", formatter: "image", headerSort:false },
+                        { title: "Actions", formatter: button, headerSort:false },
+                    ],
+                });
+            }
+        });
+        function deleteRow(event) {
+            let row = event.target.parentElement.parentElement;
+            row.parentNode.removeChild(row);
+        }
+    </script>
+</body>
+
+</html>
