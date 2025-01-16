@@ -1,0 +1,5 @@
+[config] # in configuration.toml
+model="google_ai_studio/gemini-1.5-flash"
+fallback_models=["google_ai_studio/gemini-1.5-flash"]
+
+
